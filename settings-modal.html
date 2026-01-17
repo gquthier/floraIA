@@ -1,0 +1,161 @@
+<!-- Modal pour configurer la clé API (à ajouter dans index.html) -->
+<div id="settingsModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2>⚙️ Paramètres</h2>
+            <button class="close-modal" onclick="closeSettingsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div style="padding: 1rem 0;">
+            <div class="settings-section">
+                <h3>🤖 Intelligence Artificielle (Optionnel)</h3>
+                <p style="color: #64748b; font-size: 0.875rem; margin-bottom: 1rem;">
+                    Activez l'IA pour des suggestions personnalisées et descriptions améliorées.
+                </p>
+                
+                <div class="form-group">
+                    <label>Clé API OpenAI</label>
+                    <div style="position: relative;">
+                        <input 
+                            type="password" 
+                            id="openaiKeyInput" 
+                            class="form-input" 
+                            placeholder="sk-proj-..."
+                            style="padding-right: 100px;"
+                        >
+                        <button 
+                            onclick="toggleKeyVisibility()" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b;"
+                        >
+                            <i class="fas fa-eye" id="toggleKeyIcon"></i>
+                        </button>
+                    </div>
+                    <small style="color: #64748b;">
+                        🔒 Votre clé est stockée localement et ne sera jamais partagée.
+                        <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #2563eb;">Obtenir une clé</a>
+                    </small>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button onclick="saveOpenAIKey()" class="btn-primary">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                    <button onclick="clearOpenAIKey()" class="btn-secondary">
+                        <i class="fas fa-trash"></i> Supprimer la clé
+                    </button>
+                </div>
+                
+                <div id="aiStatus" style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px; display: none;">
+                    <strong>Statut :</strong> <span id="aiStatusText"></span>
+                </div>
+            </div>
+            
+            <div class="settings-section" style="margin-top: 2rem;">
+                <h3>💡 Fonctionnalités IA disponibles</h3>
+                <ul style="color: #64748b; font-size: 0.875rem;">
+                    <li>✨ Descriptions d'activités améliorées</li>
+                    <li>🎯 Suggestions d'activités complémentaires</li>
+                    <li>📝 Résumés d'itinéraires personnalisés</li>
+                    <li>🔍 Recherche sémantique avancée (à venir)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openSettingsModal() {
+    document.getElementById('settingsModal').classList.add('active');
+    
+    // Charger la clé existante (masquée)
+    const existingKey = localStorage.getItem('openai_api_key');
+    if (existingKey) {
+        document.getElementById('openaiKeyInput').value = existingKey;
+        updateAIStatus(true);
+    }
+}
+
+function closeSettingsModal() {
+    document.getElementById('settingsModal').classList.remove('active');
+}
+
+function toggleKeyVisibility() {
+    const input = document.getElementById('openaiKeyInput');
+    const icon = document.getElementById('toggleKeyIcon');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+
+function saveOpenAIKey() {
+    const key = document.getElementById('openaiKeyInput').value.trim();
+    
+    if (!key) {
+        alert('❌ Veuillez entrer une clé API');
+        return;
+    }
+    
+    if (!key.startsWith('sk-')) {
+        alert('❌ Format de clé invalide. Une clé OpenAI commence par "sk-"');
+        return;
+    }
+    
+    if (setOpenAIKey(key)) {
+        updateAIStatus(true);
+        showNotification('✅ Clé API sauvegardée avec succès', 'success');
+        
+        // Réinitialiser l'assistant AI
+        if (typeof initializeAI === 'function') {
+            initializeAI();
+        }
+    }
+}
+
+function clearOpenAIKey() {
+    if (confirm('Êtes-vous sûr de vouloir supprimer la clé API ?')) {
+        if (typeof clearOpenAIKey === 'function') {
+            clearOpenAIKey();
+        }
+        document.getElementById('openaiKeyInput').value = '';
+        updateAIStatus(false);
+        showNotification('🗑️ Clé API supprimée', 'success');
+    }
+}
+
+function updateAIStatus(isConfigured) {
+    const statusDiv = document.getElementById('aiStatus');
+    const statusText = document.getElementById('aiStatusText');
+    
+    statusDiv.style.display = 'block';
+    
+    if (isConfigured) {
+        statusDiv.style.background = '#d1fae5';
+        statusDiv.style.color = '#065f46';
+        statusText.textContent = '✅ IA activée - Fonctionnalités disponibles';
+    } else {
+        statusDiv.style.background = '#fee2e2';
+        statusDiv.style.color = '#991b1b';
+        statusText.textContent = '⚠️ IA désactivée - Aucune clé configurée';
+    }
+}
+</script>
+
+<style>
+.settings-section h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.settings-section ul {
+    padding-left: 1.5rem;
+    line-height: 1.8;
+}
+</style>

@@ -1,0 +1,38 @@
+# Environment variables (IMPORTANT: protège vos clés API)
+.env
+.env.local
+.env.*.local
+
+# Secrets
+*.key
+*.pem
+secrets/
+config/secrets.json
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+tmp_rovodev_*
+
+# Build outputs
+dist/
+build/
+*.log

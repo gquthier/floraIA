@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Test - ItinérairoPro</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f8fafc;
+        }
+        h1 {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #1e293b;
+            margin-top: 2rem;
+            background: #eff6ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        .test-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #94a3b8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .test-item.passed {
+            border-left-color: #10b981;
+        }
+        .test-item.failed {
+            border-left-color: #ef4444;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status.testing {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .status.passed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.failed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .test-details {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        .start-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .start-button:hover {
+            background: #1e40af;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #10b981);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Checklist de Test - ItinérairoPro</h1>
+    
+    <div style="background: #eff6ff; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+        <h3 style="margin-top: 0;">🎯 Objectif du Test</h3>
+        <p>Vérifier que toutes les fonctionnalités de l'application fonctionnent correctement, du chargement du CSV jusqu'à l'export des documents.</p>
+        <a href="http://localhost:8000" target="_blank" class="start-button">🚀 Ouvrir l'Application</a>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressBar">0%</div>
+    </div>
+
+    <h2>📋 Phase 1: Chargement Initial</h2>
+    
+    <div class="test-item" id="test1">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check1" onchange="updateProgress()">
+            <label for="check1"><strong>Test 1.1: Page se charge correctement</strong></label>
+            <span class="status pending" id="status1">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Ouvrir http://localhost:8000<br>
+            <strong>Attendu:</strong> Page affiche le logo "ItinérairoPro" et le formulaire Étape 1<br>
+            <strong>Vérifier:</strong> Pas d'erreur dans la console (F12)
+        </div>
+    </div>
+
+    <div class="test-item" id="test2">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check2" onchange="updateProgress()">
+            <label for="check2"><strong>Test 1.2: CSV chargé avec succès</strong></label>
+            <span class="status pending" id="status2">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Ouvrir la console (F12) et chercher le message<br>
+            <strong>Attendu:</strong> "✅ 62 activités chargées depuis CSV"<br>
+            <strong>Vérifier:</strong> "📍 Localisations: Amed, Canggu, Candidasa..."
+        </div>
+    </div>
+
+    <h2>🔍 Phase 2: Recherche et Filtres RAG</h2>
+
+    <div class="test-item" id="test3">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check3" onchange="updateProgress()">
+            <label for="check3"><strong>Test 2.1: Recherche textuelle fonctionne</strong></label>
+            <span class="status pending" id="status3">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Remplir Étape 1 (dates) → Cliquer "Suivant" → "Ajouter une activité" → Taper "diving"<br>
+            <strong>Attendu:</strong> Plusieurs activités de plongée apparaissent<br>
+            <strong>Vérifier:</strong> "Diving Manta Rays", "Liberty Wreck", etc.
+        </div>
+    </div>
+
+    <div class="test-item" id="test4">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check4" onchange="updateProgress()">
+            <label for="check4"><strong>Test 2.2: Filtre par localisation</strong></label>
+            <span class="status pending" id="status4">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Dans le modal, sélectionner "Nusa Penida" dans le dropdown localisation<br>
+            <strong>Attendu:</strong> Seulement les activités Nusa Penida sont affichées<br>
+            <strong>Vérifier:</strong> Compteur affiche "X activités trouvées"
+        </div>
+    </div>
+
+    <div class="test-item" id="test5">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check5" onchange="updateProgress()">
+            <label for="check5"><strong>Test 2.3: Filtre par catégorie</strong></label>
+            <span class="status pending" id="status5">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Sélectionner "Plongée & Snorkeling" dans le dropdown catégorie<br>
+            <strong>Attendu:</strong> Seulement les activités de plongée apparaissent<br>
+            <strong>Vérifier:</strong> Les badges de catégorie affichent "Plongée & Snorkeling"
+        </div>
+    </div>
+
+    <div class="test-item" id="test6">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check6" onchange="updateProgress()">
+            <label for="check6"><strong>Test 2.4: Recherche combinée</strong></label>
+            <span class="status pending" id="status6">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Taper "manta" + Localisation "Nusa Penida"<br>
+            <strong>Attendu:</strong> "Diving Manta Rays" en premier résultat<br>
+            <strong>Vérifier:</strong> Compteur mis à jour en temps réel
+        </div>
+    </div>
+
+    <h2>📝 Phase 3: Création d'Itinéraire</h2>
+
+    <div class="test-item" id="test7">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check7" onchange="updateProgress()">
+            <label for="check7"><strong>Test 3.1: Ajout d'activités</strong></label>
+            <span class="status pending" id="status7">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer sur une activité dans le modal<br>
+            <strong>Attendu:</strong> Activité ajoutée au jour + Notification "✅ [Nom] ajoutée au Jour X"<br>
+            <strong>Vérifier:</strong> Modal se ferme automatiquement
+        </div>
+    </div>
+
+    <div class="test-item" id="test8">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check8" onchange="updateProgress()">
+            <label for="check8"><strong>Test 3.2: Affichage des activités</strong></label>
+            <span class="status pending" id="status8">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Regarder la carte du jour avec l'activité ajoutée<br>
+            <strong>Attendu:</strong> Nom, localisation, durée, prix en EUR affichés<br>
+            <strong>Vérifier:</strong> Bouton supprimer (poubelle) visible au survol
+        </div>
+    </div>
+
+    <div class="test-item" id="test9">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check9" onchange="updateProgress()">
+            <label for="check9"><strong>Test 3.3: Ajouter 5 activités (5 jours)</strong></label>
+            <span class="status pending" id="status9">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Ajouter une activité différente pour chaque jour (1 à 5)<br>
+            <strong>Attendu:</strong> 5 jours avec 1 activité chacun<br>
+            <strong>Vérifier:</strong> Calcul du prix total visible
+        </div>
+    </div>
+
+    <h2>🚗 Phase 4: Transferts</h2>
+
+    <div class="test-item" id="test10">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check10" onchange="updateProgress()">
+            <label for="check10"><strong>Test 4.1: Transferts auto-générés</strong></label>
+            <span class="status pending" id="status10">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Suivant" depuis Étape 2<br>
+            <strong>Attendu:</strong> Transferts générés automatiquement basés sur les activités<br>
+            <strong>Vérifier:</strong> Jour 1 : Aéroport → Première destination
+        </div>
+    </div>
+
+    <h2>📸 Phase 5: Photos & Aperçu</h2>
+
+    <div class="test-item" id="test11">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check11" onchange="updateProgress()">
+            <label for="check11"><strong>Test 5.1: Drag & Drop photos</strong></label>
+            <span class="status pending" id="status11">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Suivant" → Glisser-déposer 2-3 images dans la zone<br>
+            <strong>Attendu:</strong> Photos apparaissent en miniature<br>
+            <strong>Vérifier:</strong> Bouton X pour supprimer visible au survol
+        </div>
+    </div>
+
+    <div class="test-item" id="test12">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check12" onchange="updateProgress()">
+            <label for="check12"><strong>Test 5.2: Aperçu de l'itinéraire</strong></label>
+            <span class="status pending" id="status12">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Regarder la colonne "Aperçu de l'itinéraire"<br>
+            <strong>Attendu:</strong> Nom client, dates, activités jour par jour affichés<br>
+            <strong>Vérifier:</strong> Format professionnel et lisible
+        </div>
+    </div>
+
+    <h2>📤 Phase 6: Exports</h2>
+
+    <div class="test-item" id="test13">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check13" onchange="updateProgress()">
+            <label for="check13"><strong>Test 6.1: Export PDF Client</strong></label>
+            <span class="status pending" id="status13">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Suivant" → Cliquer "Télécharger PDF"<br>
+            <strong>Attendu:</strong> Nouvelle fenêtre s'ouvre avec l'itinéraire formaté<br>
+            <strong>Vérifier:</strong> Photos incluses, mise en page professionnelle
+        </div>
+    </div>
+
+    <div class="test-item" id="test14">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check14" onchange="updateProgress()">
+            <label for="check14"><strong>Test 6.2: Export Word</strong></label>
+            <span class="status pending" id="status14">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Télécharger Word"<br>
+            <strong>Attendu:</strong> Fichier .doc téléchargé<br>
+            <strong>Vérifier:</strong> Ouvrable dans Word, contenu éditable
+        </div>
+    </div>
+
+    <div class="test-item" id="test15">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check15" onchange="updateProgress()">
+            <label for="check15"><strong>Test 6.3: Récapitulatif Chauffeurs</strong></label>
+            <span class="status pending" id="status15">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Télécharger Recap"<br>
+            <strong>Attendu:</strong> Nouvelle fenêtre avec contacts partenaires et liens Google Maps<br>
+            <strong>Vérifier:</strong> Tableau des transferts complet
+        </div>
+    </div>
+
+    <div class="test-item" id="test16">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check16" onchange="updateProgress()">
+            <label for="check16"><strong>Test 6.4: Quotation Excel</strong></label>
+            <span class="status pending" id="status16">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Cliquer "Télécharger Excel"<br>
+            <strong>Attendu:</strong> Fichier CSV téléchargé<br>
+            <strong>Vérifier:</strong> Ouvrable dans Excel, calculs corrects
+        </div>
+    </div>
+
+    <div class="test-item" id="test17">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check17" onchange="updateProgress()">
+            <label for="check17"><strong>Test 6.5: Résumé final correct</strong></label>
+            <span class="status pending" id="status17">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Regarder la section "Résumé de l'itinéraire"<br>
+            <strong>Attendu:</strong> Nom client, durée, nombre d'activités, prix total<br>
+            <strong>Vérifier:</strong> Tous les chiffres sont corrects
+        </div>
+    </div>
+
+    <h2>🎨 Phase 7: UX & Design</h2>
+
+    <div class="test-item" id="test18">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check18" onchange="updateProgress()">
+            <label for="check18"><strong>Test 7.1: Navigation entre étapes</strong></label>
+            <span class="status pending" id="status18">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Utiliser les boutons "Suivant" et "Précédent"<br>
+            <strong>Attendu:</strong> Navigation fluide, indicateurs de progression mis à jour<br>
+            <strong>Vérifier:</strong> Données conservées entre les étapes
+        </div>
+    </div>
+
+    <div class="test-item" id="test19">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check19" onchange="updateProgress()">
+            <label for="check19"><strong>Test 7.2: Responsive design</strong></label>
+            <span class="status pending" id="status19">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Réduire la fenêtre du navigateur (simuler mobile)<br>
+            <strong>Attendu:</strong> Interface s'adapte correctement<br>
+            <strong>Vérifier:</strong> Tout reste lisible et utilisable
+        </div>
+    </div>
+
+    <div class="test-item" id="test20">
+        <div class="checkbox-container">
+            <input type="checkbox" id="check20" onchange="updateProgress()">
+            <label for="check20"><strong>Test 7.3: Notifications</strong></label>
+            <span class="status pending" id="status20">En attente</span>
+        </div>
+        <div class="test-details">
+            <strong>Action:</strong> Ajouter une activité ou exporter un document<br>
+            <strong>Attendu:</strong> Notification apparaît en haut à droite<br>
+            <strong>Vérifier:</strong> Disparaît automatiquement après 3 secondes
+        </div>
+    </div>
+
+    <div style="background: #f0fdf4; padding: 20px; border-radius: 12px; margin: 30px 0; border-left: 4px solid #10b981;">
+        <h3 style="margin-top: 0; color: #065f46;">✅ Résultat Final</h3>
+        <p id="finalResult">Complétez tous les tests ci-dessus pour voir le résultat.</p>
+        <div id="successMessage" style="display: none; color: #065f46; font-weight: 600; font-size: 1.125rem;">
+            🎉 Tous les tests sont passés ! L'application est prête pour la production.
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const total = 20;
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+            
+            // Mettre à jour le résultat final
+            const finalResult = document.getElementById('finalResult');
+            const successMessage = document.getElementById('successMessage');
+            
+            if (checked === total) {
+                finalResult.style.display = 'none';
+                successMessage.style.display = 'block';
+            } else {
+                finalResult.textContent = `${checked}/${total} tests complétés (${percentage}%)`;
+            }
+            
+            // Mettre à jour les statuts individuels
+            for (let i = 1; i <= total; i++) {
+                const checkbox = document.getElementById('check' + i);
+                const status = document.getElementById('status' + i);
+                const testItem = document.getElementById('test' + i);
+                
+                if (checkbox.checked) {
+                    status.textContent = '✅ Passé';
+                    status.className = 'status passed';
+                    testItem.classList.add('passed');
+                } else {
+                    status.textContent = 'En attente';
+                    status.className = 'status pending';
+                    testItem.classList.remove('passed');
+                }
+            }
+        }
+        
+        // Charger l'état depuis localStorage
+        window.addEventListener('load', function() {
+            for (let i = 1; i <= 20; i++) {
+                const saved = localStorage.getItem('test' + i);
+                if (saved === 'true') {
+                    document.getElementById('check' + i).checked = true;
+                }
+            }
+            updateProgress();
+        });
+        
+        // Sauvegarder l'état dans localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+        });
+    </script>
+</body>
+</html>

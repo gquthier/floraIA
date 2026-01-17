@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ItinérairePro - Démonstration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 2rem 0;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            margin: 1rem;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .stat-label {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ ItinérairePro</h1>
+        <div class="subtitle">Créez des itinéraires professionnels en quelques minutes</div>
+        
+        <a href="index.html" class="cta-button">🚀 Démarrer Maintenant</a>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">⚡ 10 min</div>
+                <div class="stat-label">Pour un itinéraire complet</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">📄 4</div>
+                <div class="stat-label">Types d'exports</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">🎯 5</div>
+                <div class="stat-label">Étapes simples</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">👤</div>
+                <div class="feature-title">Informations Client</div>
+                <p>Saisie rapide des dates et préférences</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Activités</div>
+                <p>Base de données personnalisable</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🚗</div>
+                <div class="feature-title">Transferts Auto</div>
+                <p>Génération automatique intelligente</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <div class="feature-title">Photos Drag & Drop</div>
+                <p>Ajout visuel simple et rapide</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <div class="feature-title">Export PDF/Word</div>
+                <p>Documents professionnels prêts à l'envoi</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <div class="feature-title">Quotation Auto</div>
+                <p>Calcul automatique des prix</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 16px;">
+            <h2 style="margin-bottom: 1rem;">📚 Documentation</h2>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="README.md" style="color: white; text-decoration: none; padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 8px;">📖 README</a>
+                <a href="GUIDE_UTILISATION.md" style="color: white; text-decoration: none; padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 8px;">📋 Guide Utilisateur</a>
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem; opacity: 0.8;">
+            <p>Serveur local actif : <strong>http://localhost:8000</strong></p>
+            <p>Prêt à créer votre premier itinéraire ? 🎉</p>
+        </div>
+    </div>
+</body>
+</html>

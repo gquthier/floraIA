@@ -1,0 +1,343 @@
+{
+    "name": "Flora IA",
+    "nodes": [
+      {
+        "parameters": {
+          "resource": "assistant",
+          "assistantId": {
+            "__rl": true,
+            "value": "asst_8lDdGoY0bOHeIa5FZSTABydp",
+            "mode": "list",
+            "cachedResultName": "Lyra_Travel_planner"
+          },
+          "prompt": "define",
+          "text": "=Voici l’intégralité des informations de voyage (onboarding) :\n\nNom du client : {{ $json['Complet Name'] }}\nEmail : {{ $json.Email }}\nNuméro de tel: {{ $json['Phone Number ( Whatsapp if possible )'] }}\n\nVoyage avec des enfant? {{ $json['Travel with kids ? ( No / If yes , age of the kids)'] }}\n\nDate de préférence {{ $json['Preferred travel dates:'] }}\n\nDurée de séjoutr: {{ $json['Length of stay (in days):'] }}\n\nBudget par personne en dehors des avions: {{ $json['Budget per person excluding flights (approximate):'] }}\n\nStyle de voyage souhaité : \n{{ $json['What travel style are you looking for? (You can choose multiple)'] }}\n\nPriorité du client : \n{{ $json['What are your top priorities?'] }}\n\nPriorité du client : {{ $json['What are your top priorities?'] }}\nAutres priorité : {{ $json['What are your top priorities? (1)'] }}\n\n\nNiveau de confort du voyage attendu : {{ $json['What level of comfort do you expect?'] }}\n\nWould you like accommodation with specific services?\n[null]\n{{ $json['Would you like accommodation with specific services?'] }}\n\nÀ partir de ces informations, génère MAINTENANT un travel planning complet et prêt à remettre au client — même si des éléments manquent. Tu appliques tes règles et valeurs par défaut si nécessaire. Ne pose pas de questions, ne demande pas de validations : rends le livrable final.\n\nStructure attendue (dans cet ordre) :\n1) Introduction\n2) Carte + étapes de l’itinéraire (et fournis le MAP PROMPT séparé)\n3) Étapes détaillées par stop (jour par jour, créneaux réalistes, transferts, buffers)\n4) Hébergements (1–3 options par stop, adaptés au budget/besoins)\n5) Récapitulatif du voyage (tableau “Journey Overview” : Day | Date | From→To | Activities/Transfers | Meals | Driver)\n6) Tarification (Activities & Transportation, Hotels & Villas, Grand Total, devise + validité)\n7) Conditions générales\n8) Hypothèses & Informations manquantes (uniquement si tu as appliqué des défauts)\n\nContraintes : max 2 activités majeures/jour, pas deux sunrise d’affilée, chauffeur ≤ 8h/j et cutoff 22:00, temps de route réalistes + buffers, sécurité familles/enfants respectée. \nLangue : suis celle de l’input ; sinon **français**. \nStyle : clair, concret, sans hype, opérationnel.\n {{ $json['Complet Name'] }}",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          -336,
+          -512
+        ],
+        "id": "d83a7410-cb2c-41dd-89f3-ec2c020b7efe",
+        "name": "Message a model",
+        "retryOnFail": true,
+        "credentials": {
+          "openAiApi": {
+            "id": "11TRVgW5Kz8MTNAs",
+            "name": "OpenAi account 4"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-5",
+            "mode": "list",
+            "cachedResultName": "gpt-5"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          976,
+          32
+        ],
+        "id": "d4d88baf-0367-4850-8b43-b93eeeab5cff",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "11TRVgW5Kz8MTNAs",
+            "name": "OpenAi account 4"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Tu es un prompt engineer, expert en design et création de sites internet. L'objectif est que tu me structure un prompt et que tu me renvoies un prompt complet pour la création d'un site internet pour un travel planning qui doit suivre exactement la structure et le plan du travel plan que je vais t'envoyer. \n\nTu dois faire en sorte qu'il retraite un design. Épurer aux couleurs de Bali et de l'Indonésie en mettant des animations pour la section de planning, pour la section du trip complet. Je veux également que tu recherches et ajoutes des photos pour chacune des activités qui sont énoncées et que tu suives l'ordre structuré des sections avec en première section l'introduction sur laquelle tu dois ajouter cette photo de Flora (https://lh3.google.com/u/0/d/1VWKgEkU1hlKC4mD1dbSCrDNyZ1WOhq81=w2000-h6924-iv2?auditContext=forDisplay). Le seul bouton que tu dois mettre pour le call to action doit être « Confirmer votre participation » et ça doit être un bouton sur WhatsApp qui redirige vers ce lien. \n\nhttps://wa.me \n\nTu dois à partir de ces informations me renvoyer le prompt complet qui va permettre à un outil comme Lovable de réaliser l'entièreté d'un site internet avec une charte graphique épurée et design pour renvoyer le site internet.\n\n {{ $('Message a model').item.json.output }}",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          1152,
+          -304
+        ],
+        "id": "b47d646c-3e3c-4e19-9081-deb992ee2bf2",
+        "name": "Prompt Website"
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "prompt": "=Text-free, Google-Maps–inspired shaded-relief map of **Bali** showing an itinerary with numbered stops only. Center and enlarge Bali; include nearby islands (Java to the west, Nusa Penida, Lombok to the east) only if they contain steps—render them faint/desaturated for context. Realistic 3D terrain: detailed elevation shading, soft NW sunlight, crisp coastlines, subtle bathymetry gradient, light green land, soft blue ocean; thin unlabeled white roads; clean, modern, minimal cartography. **Absolutely no text anywhere** (no city names, titles, legends, labels).\nDraw a bright, smooth route line connecting the stops in the order provided below, with gentle drop shadow and arrowheads. Add large circular **numbered markers** (1..N) at each stop—digits only, high contrast, consistent style.\nFor every stop, create a small circular “zoom” photo inset (no captions) connected to its marker by a fine leader line; each inset should visually represent the place using the keywords provided (landmarks/scenery/activities), with a thin white border and soft shadow. Keep Bali fully visible; place insets around the island without covering key coastlines. Clean travel-infographic look; balanced composition; high detail; sharp icons; no watermarks.\n\nDetailed Trip :  {{ $json.message }}\n\n\nOutput: 16:9 landscape, 4K (3840×2160), high detail, textless map, professional finish.\n\nNegative prompt: any text or labels, titles, legends, logos, watermarks, political boundaries, traffic layers, 3D buildings, messy colors, busy textures, overlapping elements, extra icons beyond numbered circles.\n",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          848,
+          -208
+        ],
+        "id": "1bc06f91-4691-4a45-bd3d-c89ab309c570",
+        "name": "Generate an image",
+        "credentials": {
+          "openAiApi": {
+            "id": "11TRVgW5Kz8MTNAs",
+            "name": "OpenAi account 4"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-5",
+            "mode": "list",
+            "cachedResultName": "GPT-5"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Je veux que tu extrait de cette Output unqiuement la partie :\n\n5) Récapitulatif du voyage (tableau “Journey Overview” : Day | Date | From→To | Activities/Transfers | Meals | Driver)\n\n\nTu dois unqiuement me renvoyer cette partie et rien d'autre en Output.\n\nVoici le texte qu'il faut extraire {{ $('Message a model').item.json.output }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          448,
+          -336
+        ],
+        "id": "401f286f-f9d1-40b6-a255-2759bcc00dce",
+        "name": "Message a model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "11TRVgW5Kz8MTNAs",
+            "name": "OpenAi account 4"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "fillout-webhook",
+          "responseMode": "lastNode",
+          "options": {}
+        },
+        "id": "062ff9fa-220c-4bc8-9d2e-6b680bc6075d",
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          -736,
+          -224
+        ],
+        "webhookId": "1fc6229e-44f5-46cf-8c1e-5e97f663f4fd"
+      },
+      {
+        "parameters": {
+          "functionCode": "// Parse Fillout submission into key/value pairs\nconst data = $json;\nconst parsed = {};\n\nif (data.body && data.body.submission && Array.isArray(data.body.submission.questions)) {\n  data.body.submission.questions.forEach(q => {\n    parsed[q.name] = q.value;\n  });\n}\n\nreturn [{ json: parsed }];"
+        },
+        "id": "6897e894-5ec5-4364-9c9c-33e0ac1df36c",
+        "name": "Parse Responses",
+        "type": "n8n-nodes-base.function",
+        "typeVersion": 1,
+        "position": [
+          -496,
+          -224
+        ]
+      },
+      {
+        "parameters": {
+          "folderId": "1eiaxosqLurZkYEzv5dyemHl3t0IUATar",
+          "title": "=Travel IA I  {{ $('Parse Responses').item.json['Complet Name'] }}"
+        },
+        "type": "n8n-nodes-base.googleDocs",
+        "typeVersion": 2,
+        "position": [
+          16,
+          -512
+        ],
+        "id": "ed12bb11-632e-4db8-bc20-a6941e232103",
+        "name": "Create a document",
+        "credentials": {
+          "googleDocsOAuth2Api": {
+            "id": "q7NFZWdbFr6s5foM",
+            "name": "Google Docs account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentURL": "={{ $json.id }}",
+          "actionsUi": {
+            "actionFields": [
+              {
+                "action": "insert",
+                "text": "={{ $('Message a model').item.json.output }}"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.googleDocs",
+        "typeVersion": 2,
+        "position": [
+          224,
+          -512
+        ],
+        "id": "04a43192-d5bb-47c8-9bf9-7ed2901dd2af",
+        "name": "Update a document",
+        "credentials": {
+          "googleDocsOAuth2Api": {
+            "id": "q7NFZWdbFr6s5foM",
+            "name": "Google Docs account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sendTo": "gauthier@upwardmedia.fr",
+          "subject": "Test ",
+          "message": "=",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.1,
+        "position": [
+          1504,
+          -304
+        ],
+        "id": "0281caeb-662d-4c49-b6de-ef7d9d4163b3",
+        "name": "Send a message",
+        "webhookId": "d868c8e2-e19b-4a62-b6e8-c80b3a927df9",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "hZClOO6wSBZU0drM",
+            "name": "Gmail account"
+          }
+        }
+      }
+    ],
+    "pinData": {},
+    "connections": {
+      "Message a model": {
+        "main": [
+          [
+            {
+              "node": "Create a document",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Prompt Website",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate an image": {
+        "main": [
+          [
+            {
+              "node": "Prompt Website",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Message a model1": {
+        "main": [
+          [
+            {
+              "node": "Generate an image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Prompt Website": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Parse Responses",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse Responses": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a document": {
+        "main": [
+          [
+            {
+              "node": "Update a document",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update a document": {
+        "main": [
+          [
+            {
+              "node": "Message a model1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "active": false,
+    "settings": {
+      "executionOrder": "v1"
+    },
+    "versionId": "194564e8-bde5-47ad-a565-12b47291750f",
+    "meta": {
+      "templateCredsSetupCompleted": true,
+      "instanceId": "8494458ff1dfae8536c21739486039a496ee2761e029aa827d931a06eec23a4f"
+    },
+    "id": "is5X3QxBiAS0jtbu",
+    "tags": []
+  }
+  
