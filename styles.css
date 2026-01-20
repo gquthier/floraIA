@@ -871,20 +871,133 @@ textarea.form-input {
     .form-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .nav {
         display: none;
     }
-    
+
     .progress-steps {
         overflow-x: auto;
     }
-    
+
     .preview-section {
         grid-template-columns: 1fr;
     }
-    
+
     .export-options {
         grid-template-columns: 1fr;
     }
+}
+
+/* Activity Actions */
+.activity-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.btn-edit {
+    background: var(--beige-light);
+    color: var(--primary-color);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-edit:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-remove {
+    background: #fee2e2;
+    color: #dc2626;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-remove:hover {
+    background: #dc2626;
+    color: white;
+}
+
+/* Zones Management */
+.zones-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.zones-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.zones-header h3 {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.zone-card {
+    background: var(--beige-light);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.zone-card .form-group {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.zone-card .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.zone-remove {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.zone-remove:hover {
+    background: #fee2e2;
+}
+
+.add-zone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--green-soft);
+    color: var(--primary-dark);
+    border: 2px dashed var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.add-zone-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    border-style: solid;
 }

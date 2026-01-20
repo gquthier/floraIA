@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +20,10 @@
                 <span class="logo-text">Baliwithflow</span>
             </div>
             <nav class="nav">
-                <a href="#" class="nav-link active">Nouveau</a>
-                <a href="#" class="nav-link">Mes itinéraires</a>
-                <a href="#" class="nav-link">Base de données</a>
-                <a href="#" class="nav-link" onclick="openSettingsModal(); return false;">Paramètres</a>
+                <a href="index.html" class="nav-link active">New</a>
+                <a href="my-itineraries.html" class="nav-link">My Itineraries</a>
+                <a href="my-itineraries.html#activities" class="nav-link">Database</a>
+                <a href="#" class="nav-link" onclick="openSettingsModal(); return false;">Settings</a>
             </nav>
             <div class="user-profile">
                 <i class="fas fa-user-circle"></i>
@@ -38,22 +38,22 @@
             <div class="progress-steps">
                 <div class="step active" data-step="1">
                     <div class="step-number">1</div>
-                    <div class="step-label">Infos Client</div>
+                    <div class="step-label">Client Info</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="step" data-step="2">
                     <div class="step-number">2</div>
-                    <div class="step-label">Activités</div>
+                    <div class="step-label">Activities</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="step" data-step="3">
                     <div class="step-number">3</div>
-                    <div class="step-label">Transferts</div>
+                    <div class="step-label">Transfers</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="step" data-step="4">
                     <div class="step-number">4</div>
-                    <div class="step-label">Personnalisation</div>
+                    <div class="step-label">Customization</div>
                 </div>
                 <div class="step-line"></div>
                 <div class="step" data-step="5">
@@ -67,41 +67,57 @@
                 <div class="card">
                     <h2 class="card-title">
                         <i class="fas fa-user"></i>
-                        Informations Client
+                        Client Information
                     </h2>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Nom du client *</label>
-                            <input type="text" class="form-input" id="clientName" placeholder="Ex: Famille Dupont">
+                            <label>Client Name *</label>
+                            <input type="text" class="form-input" id="clientName" placeholder="e.g. Smith Family">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-input" id="clientEmail" placeholder="client@email.com">
                         </div>
                         <div class="form-group">
-                            <label>Nombre de personnes *</label>
+                            <label>WhatsApp Number *</label>
+                            <input type="tel" class="form-input" id="clientWhatsapp" placeholder="+33 6 XX XX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Guests *</label>
                             <input type="number" class="form-input" id="nbPersons" value="2" min="1">
                         </div>
                         <div class="form-group">
-                            <label>Budget estimé (€)</label>
-                            <input type="number" class="form-input" id="budget" placeholder="2000">
-                        </div>
-                        <div class="form-group full-width">
-                            <label>Date de début *</label>
+                            <label>Start Date *</label>
                             <input type="date" class="form-input" id="startDate">
                         </div>
-                        <div class="form-group full-width">
-                            <label>Date de fin *</label>
+                        <div class="form-group">
+                            <label>End Date *</label>
                             <input type="date" class="form-input" id="endDate">
                         </div>
                         <div class="form-group full-width">
-                            <label>Notes / Préférences</label>
-                            <textarea class="form-input" id="clientNotes" rows="3" placeholder="Préférences alimentaires, mobilité réduite, etc."></textarea>
+                            <label>Notes / Preferences</label>
+                            <textarea class="form-input" id="clientNotes" rows="3" placeholder="Dietary requirements, mobility needs, special requests..."></textarea>
                         </div>
                     </div>
                     <div class="duration-info" id="durationInfo">
                         <i class="fas fa-calendar-alt"></i>
-                        <span>Durée du séjour : <strong id="tripDuration">-- jours</strong></span>
+                        <span>Trip Duration: <strong id="tripDuration">-- days, -- nights</strong></span>
+                    </div>
+
+                    <!-- Trip Zones Section -->
+                    <div class="zones-container">
+                        <div class="zones-header">
+                            <h3><i class="fas fa-map-marked-alt"></i> Trip Zones</h3>
+                            <button type="button" class="add-zone-btn" onclick="addZone()">
+                                <i class="fas fa-plus"></i> Add Zone
+                            </button>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Define the different areas your client will visit during their trip.
+                        </p>
+                        <div id="zonesContainer">
+                            <!-- Zone cards will be added here dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,7 +127,7 @@
                 <div class="card">
                     <h2 class="card-title">
                         <i class="fas fa-hiking"></i>
-                        Planifier les activités jour par jour
+                        Plan Activities Day by Day
                     </h2>
                     <div id="daysContainer"></div>
                 </div>
@@ -122,35 +138,53 @@
                 <div class="card">
                     <h2 class="card-title">
                         <i class="fas fa-car"></i>
-                        Transferts et Transport
+                        Transfers & Transportation
                     </h2>
                     <div id="transfersContainer"></div>
                     <button class="btn-secondary" id="addTransfer">
-                        <i class="fas fa-plus"></i> Ajouter un transfert
+                        <i class="fas fa-plus"></i> Add Transfer
                     </button>
                 </div>
             </div>
 
             <!-- Step 4: Customization -->
             <div class="step-content" id="step4">
+                <!-- Accommodations Section -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h2 class="card-title">
+                        <i class="fas fa-hotel"></i>
+                        Accommodations
+                    </h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        Add accommodation details for internal pricing. Hotel names will only appear in driver documents.
+                    </p>
+                    <div id="accommodationsContainer">
+                        <!-- Accommodation cards will be added here -->
+                    </div>
+                    <button type="button" class="add-zone-btn" onclick="addAccommodation()" style="margin-top: 1rem;">
+                        <i class="fas fa-plus"></i> Add Accommodation
+                    </button>
+                </div>
+
+                <!-- Preview & Photos Section -->
                 <div class="card">
                     <h2 class="card-title">
                         <i class="fas fa-images"></i>
-                        Personnalisation & Photos
+                        Preview & Photos
                     </h2>
                     <div class="preview-section">
                         <div class="preview-column">
-                            <h3>Aperçu de l'itinéraire</h3>
+                            <h3>Itinerary Preview</h3>
                             <div id="itineraryPreview" class="itinerary-preview">
                                 <!-- Generated preview will go here -->
                             </div>
                         </div>
                         <div class="upload-column">
-                            <h3>Ajouter des photos</h3>
+                            <h3>Add Photos</h3>
                             <div class="drag-drop-zone" id="dragDropZone">
                                 <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Glissez-déposez vos photos ici</p>
-                                <p class="small">ou cliquez pour parcourir</p>
+                                <p>Drag & drop your photos here</p>
+                                <p class="small">or click to browse</p>
                                 <input type="file" id="photoUpload" multiple accept="image/*" style="display: none;">
                             </div>
                             <div id="uploadedPhotos" class="uploaded-photos"></div>
@@ -164,52 +198,52 @@
                 <div class="card">
                     <h2 class="card-title">
                         <i class="fas fa-file-export"></i>
-                        Export et Documents
+                        Export & Documents
                     </h2>
                     <div class="export-options">
                         <div class="export-card">
                             <div class="export-icon">
                                 <i class="fas fa-file-pdf"></i>
                             </div>
-                            <h3>Itinéraire Client</h3>
-                            <p>Document PDF professionnel avec photos et détails complets</p>
+                            <h3>Client Itinerary</h3>
+                            <p>Professional PDF with photos and complete details</p>
                             <button class="btn-primary" id="exportClientPDF">
-                                <i class="fas fa-download"></i> Télécharger PDF
+                                <i class="fas fa-download"></i> Download PDF
                             </button>
                         </div>
                         <div class="export-card">
                             <div class="export-icon">
-                                <i class="fas fa-file-word"></i>
+                                <i class="fas fa-calendar-check"></i>
                             </div>
-                            <h3>Document Word</h3>
-                            <p>Version éditable pour modifications finales</p>
-                            <button class="btn-primary" id="exportClientWord">
-                                <i class="fas fa-download"></i> Télécharger Word
+                            <h3>Client Schedule</h3>
+                            <p>Day-by-day schedule with time slots</p>
+                            <button class="btn-primary" id="exportClientSchedule">
+                                <i class="fas fa-download"></i> Download Schedule
                             </button>
                         </div>
                         <div class="export-card">
                             <div class="export-icon">
                                 <i class="fas fa-clipboard-list"></i>
                             </div>
-                            <h3>Récapitulatif Chauffeurs</h3>
-                            <p>Document avec contacts, liens Google Maps et horaires</p>
+                            <h3>Driver Briefing</h3>
+                            <p>Detailed day-by-day with contacts and maps</p>
                             <button class="btn-primary" id="exportDriverDoc">
-                                <i class="fas fa-download"></i> Télécharger Recap
+                                <i class="fas fa-download"></i> Download Briefing
                             </button>
                         </div>
                         <div class="export-card">
                             <div class="export-icon">
                                 <i class="fas fa-file-excel"></i>
                             </div>
-                            <h3>Quotation Excel</h3>
-                            <p>Tableau détaillé des coûts et marges</p>
+                            <h3>Internal Quotation</h3>
+                            <p>Detailed pricing in IDR with USD conversion</p>
                             <button class="btn-primary" id="exportQuotation">
-                                <i class="fas fa-download"></i> Télécharger Excel
+                                <i class="fas fa-download"></i> Download Quotation
                             </button>
                         </div>
                     </div>
                     <div class="summary-section">
-                        <h3>Résumé de l'itinéraire</h3>
+                        <h3>Itinerary Summary</h3>
                         <div id="finalSummary" class="final-summary"></div>
                     </div>
                 </div>
@@ -218,10 +252,10 @@
             <!-- Navigation Buttons -->
             <div class="navigation-buttons">
                 <button class="btn-secondary" id="prevBtn" style="display: none;">
-                    <i class="fas fa-arrow-left"></i> Précédent
+                    <i class="fas fa-arrow-left"></i> Previous
                 </button>
                 <button class="btn-primary" id="nextBtn">
-                    Suivant <i class="fas fa-arrow-right"></i>
+                    Next <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </div>
@@ -235,67 +269,76 @@
     <script src="export-engine.js"></script>
 </body>
 </html>
-<!-- Modal pour configurer la clé API (à ajouter dans index.html) -->
+<!-- Settings Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content" style="max-width: 600px;">
         <div class="modal-header">
-            <h2>⚙️ Paramètres</h2>
+            <h2>Settings</h2>
             <button class="close-modal" onclick="closeSettingsModal()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        
+
         <div style="padding: 1rem 0;">
             <div class="settings-section">
-                <h3>🤖 Intelligence Artificielle (Optionnel)</h3>
+                <h3>AI Integration (Optional)</h3>
                 <p style="color: #64748b; font-size: 0.875rem; margin-bottom: 1rem;">
-                    Activez l'IA pour des suggestions personnalisées et descriptions améliorées.
+                    Enable AI for personalized suggestions and enhanced descriptions.
                 </p>
-                
+
                 <div class="form-group">
-                    <label>Clé API OpenAI</label>
+                    <label>OpenAI API Key</label>
                     <div style="position: relative;">
-                        <input 
-                            type="password" 
-                            id="openaiKeyInput" 
-                            class="form-input" 
+                        <input
+                            type="password"
+                            id="openaiKeyInput"
+                            class="form-input"
                             placeholder="sk-proj-..."
                             style="padding-right: 100px;"
                         >
-                        <button 
-                            onclick="toggleKeyVisibility()" 
+                        <button
+                            onclick="toggleKeyVisibility()"
                             style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #64748b;"
                         >
                             <i class="fas fa-eye" id="toggleKeyIcon"></i>
                         </button>
                     </div>
                     <small style="color: #64748b;">
-                        🔒 Votre clé est stockée localement et ne sera jamais partagée.
-                        <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #2563eb;">Obtenir une clé</a>
+                        Your key is stored locally and never shared.
+                        <a href="https://platform.openai.com/api-keys" target="_blank" style="color: #2563eb;">Get API key</a>
                     </small>
                 </div>
-                
+
                 <div style="display: flex; gap: 1rem; margin-top: 1rem;">
                     <button onclick="saveOpenAIKey()" class="btn-primary">
-                        <i class="fas fa-save"></i> Sauvegarder
+                        <i class="fas fa-save"></i> Save
                     </button>
                     <button onclick="clearOpenAIKey()" class="btn-secondary">
-                        <i class="fas fa-trash"></i> Supprimer la clé
+                        <i class="fas fa-trash"></i> Remove Key
                     </button>
                 </div>
-                
+
                 <div id="aiStatus" style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px; display: none;">
-                    <strong>Statut :</strong> <span id="aiStatusText"></span>
+                    <strong>Status:</strong> <span id="aiStatusText"></span>
                 </div>
             </div>
-            
+
             <div class="settings-section" style="margin-top: 2rem;">
-                <h3>💡 Fonctionnalités IA disponibles</h3>
+                <h3>Exchange Rate (USD/IDR)</h3>
+                <div class="form-group">
+                    <label>1 USD = IDR</label>
+                    <input type="number" id="exchangeRate" class="form-input" value="15800" placeholder="15800">
+                    <small style="color: #64748b;">Update this with today's exchange rate for accurate USD conversion.</small>
+                </div>
+            </div>
+
+            <div class="settings-section" style="margin-top: 2rem;">
+                <h3>Available AI Features</h3>
                 <ul style="color: #64748b; font-size: 0.875rem;">
-                    <li>✨ Descriptions d'activités améliorées</li>
-                    <li>🎯 Suggestions d'activités complémentaires</li>
-                    <li>📝 Résumés d'itinéraires personnalisés</li>
-                    <li>🔍 Recherche sémantique avancée (à venir)</li>
+                    <li>Enhanced activity descriptions</li>
+                    <li>Complementary activity suggestions</li>
+                    <li>Personalized itinerary summaries</li>
+                    <li>Advanced semantic search (coming soon)</li>
                 </ul>
             </div>
         </div>
@@ -305,12 +348,18 @@
 <script>
 function openSettingsModal() {
     document.getElementById('settingsModal').classList.add('active');
-    
-    // Charger la clé existante (masquée)
+
+    // Load existing API key (masked)
     const existingKey = localStorage.getItem('openai_api_key');
     if (existingKey) {
         document.getElementById('openaiKeyInput').value = existingKey;
         updateAIStatus(true);
+    }
+
+    // Load exchange rate
+    const savedRate = localStorage.getItem('exchange_rate_usd_idr');
+    if (savedRate) {
+        document.getElementById('exchangeRate').value = savedRate;
     }
 }
 
@@ -321,7 +370,7 @@ function closeSettingsModal() {
 function toggleKeyVisibility() {
     const input = document.getElementById('openaiKeyInput');
     const icon = document.getElementById('toggleKeyIcon');
-    
+
     if (input.type === 'password') {
         input.type = 'text';
         icon.className = 'fas fa-eye-slash';
@@ -333,22 +382,28 @@ function toggleKeyVisibility() {
 
 function saveOpenAIKey() {
     const key = document.getElementById('openaiKeyInput').value.trim();
-    
+    const exchangeRate = document.getElementById('exchangeRate').value;
+
+    // Save exchange rate
+    if (exchangeRate) {
+        localStorage.setItem('exchange_rate_usd_idr', exchangeRate);
+    }
+
     if (!key) {
-        alert('❌ Veuillez entrer une clé API');
+        showNotification('Exchange rate saved', 'success');
         return;
     }
-    
+
     if (!key.startsWith('sk-')) {
-        alert('❌ Format de clé invalide. Une clé OpenAI commence par "sk-"');
+        alert('Invalid API key format. OpenAI keys start with "sk-"');
         return;
     }
-    
+
     if (setOpenAIKey(key)) {
         updateAIStatus(true);
-        showNotification('✅ Clé API sauvegardée avec succès', 'success');
-        
-        // Réinitialiser l'assistant AI
+        showNotification('API key and settings saved successfully', 'success');
+
+        // Reinitialize AI assistant
         if (typeof initializeAI === 'function') {
             initializeAI();
         }
@@ -356,31 +411,33 @@ function saveOpenAIKey() {
 }
 
 function clearOpenAIKey() {
-    if (confirm('Êtes-vous sûr de vouloir supprimer la clé API ?')) {
-        if (typeof clearOpenAIKey === 'function') {
-            clearOpenAIKey();
-        }
+    if (confirm('Are you sure you want to remove the API key?')) {
+        localStorage.removeItem('openai_api_key');
         document.getElementById('openaiKeyInput').value = '';
         updateAIStatus(false);
-        showNotification('🗑️ Clé API supprimée', 'success');
+        showNotification('API key removed', 'success');
     }
 }
 
 function updateAIStatus(isConfigured) {
     const statusDiv = document.getElementById('aiStatus');
     const statusText = document.getElementById('aiStatusText');
-    
+
     statusDiv.style.display = 'block';
-    
+
     if (isConfigured) {
         statusDiv.style.background = '#d1fae5';
         statusDiv.style.color = '#065f46';
-        statusText.textContent = '✅ IA activée - Fonctionnalités disponibles';
+        statusText.textContent = 'AI enabled - Features available';
     } else {
         statusDiv.style.background = '#fee2e2';
         statusDiv.style.color = '#991b1b';
-        statusText.textContent = '⚠️ IA désactivée - Aucune clé configurée';
+        statusText.textContent = 'AI disabled - No key configured';
     }
+}
+
+function getExchangeRate() {
+    return parseFloat(localStorage.getItem('exchange_rate_usd_idr')) || 15800;
 }
 </script>
 
